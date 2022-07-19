@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import { FiSettings } from "react-icons/fi";
 import { Navbar, Footer, Header, Sidebar, ThemeSettings } from "./components";
-import { Ecommerce, Customers, Employees, Orders } from "./pages";
+import { Ecommerce, Customers, Employees, Orders, AddProduct } from "./pages";
 import { useStateContext } from "./contexts/ContextProvider";
 
 function App() {
@@ -49,12 +49,13 @@ function App() {
             {themeSettings && (<ThemeSettings />)}
               <Routes>
                 {/* Dashboard */}
-                <Route path="/" element="Ecommerce"></Route>
+                <Route path="/" element={<Ecommerce />}></Route>
                 <Route path="/ecommerce" element={<Ecommerce />}></Route>
                 {/* Pages */}
                 <Route path="/orders" element={<Orders />}></Route>
                 <Route path="/employees" element={<Employees />}></Route>
                 <Route path="/customers" element={<Customers />}></Route>
+                <Route path="/addProduct" element={<AddProduct />}></Route>
               </Routes>
             </div>
           </div>
