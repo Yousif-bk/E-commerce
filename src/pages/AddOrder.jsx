@@ -1,84 +1,196 @@
-import React, { useRef } from 'react'
-import { addDoc, collection } from "@firebase/firestore";
-import { firestore } from '../firebase'
-import { Header } from '../components';
-import { useStateContext } from '../contexts/ContextProvider';
-import { Button } from '../components';
+import React, { Component } from 'react'
 import axios from '../axios-orders';
-function AddOrder() {
-  const { currentColor } = useStateContext();
-  const messageRef = useRef();
-  const ref = collection(firestore, "email");
-  const handleSave = async(e) => {
-    const order = {
-        customer: {
-            name: 'Max Schwarzmüller',
-            address: {
-                street: 'Teststreet 1',
-                zipCode: '41351',
-                country: 'Germany'
-            },
-            email: 'test@test.com'
+import { Button,Header, Input, } from '../components';
+export default class AddOrder extends Component {
+  state ={
+      orderForm: {
+        name: {
+          elementType: 'input',
+          elementConfig: {
+            type: 'text',
+            placeholder: 'Your Name'
+          },
+          value: '',
+          validation: {
+            required: true
+          },
+          valid: false,
+          touched: false
         },
-        deliveryMethod: 'fastest'
+        street: {
+          elementType: 'input',
+          elementConfig: {
+            type: 'text',
+            placeholder: 'Street'
+          },
+          value: '',
+          validation: {
+            required: true
+          },
+          valid: false,
+          touched: false
+        },
+        zipCode: {
+          elementType: 'input',
+          elementConfig: {
+            type: 'text',
+            placeholder: 'ZIP Code'
+          },
+          value: '',
+          validation: {
+            required: true,
+            minLength: 5,
+            maxLength: 5,
+            isNumeric: true
+          },
+          valid: false,
+          touched: false
+        },
+        country: {
+          elementType: 'input',
+          elementConfig: {
+            type: 'text',
+            placeholder: 'Country'
+          },
+          value: '',
+          validation: {
+            required: true
+          },
+          valid: false,
+          touched: false
+        },
+        email: {
+          elementType: 'input',
+          elementConfig: {
+            type: 'email',
+            placeholder: 'Your E-Mail'
+          },
+          value: '',
+          validation: {
+            required: true,
+            isEmail: true
+          },
+          valid: false,
+          touched: false
+        },
+        deliveryMethod: {
+          elementType: 'select',
+          elementConfig: {
+            options: [
+              { value: 'fastest', displayValue: 'Fastest' },
+              { value: 'cheapest', displayValue: 'Cheapest' }
+            ]
+          },
+          value: '',
+          validation: {},
+          valid: true
+        }
+      }
+  }
+
+  //  { currentColor } = useStateContext();
+
+
+   orderHandler =  (e) => {
+    console.log("e.target.elements.name.value",e.target.elements.name.value);
+    e.preventDefault();
+    const formData = {};
+    for (let formElementIdentifier in this.state.orderForm) {
+      formData[formElementIdentifier] = this.state.orderForm[formElementIdentifier].value;
     }
-    axios.post( '/orders.json', order )
-    .then( response => {
-    } )
-    .catch( error => {
-    } );
+    const order = {
+      order: formData,
+    }
+    axios.post('/orders.json', order)
+      .then(response => {
+        console.log("response",response);
+      })
+      .catch(error => {
+        console.log("error",error);
+      });
+  }
+
+   checkValidity = (value, rules) => {
+    let isValid = true;
+    if (!rules) {
+        return true;
+    }
+    
+    if (rules.required) {
+        isValid = value.trim() !== '' && isValid;
     }
 
+    if (rules.minLength) {
+        isValid = value.length >= rules.minLength && isValid
+    }
 
-  return (
-    <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
-      <Header category="Page" title="Add Order" />
-      <form>
-        <div class="mb-6">
-          <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Your Name</label>
-          <input type="text" id="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
-        </div>
-        <div class="grid md:grid-cols-2 md:gap-6">
-          <div class="mb-6">
-            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Your email</label>
-            <input type="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@flowbite.com" required />
-          </div>
+    if (rules.maxLength) {
+        isValid = value.length <= rules.maxLength && isValid
+    }
 
-          <div class="mb-6">
-            <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Item</label>
-            <input type="text" id="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
-          </div>
-        </div>
-        <div class="mb-6">
-          <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Select Your Location</label>
-          <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-            <option>United States</option>
-            <option>Canada</option>
-            <option>France</option>
-            <option>Germany</option>
-          </select>
-        </div>
-        <div class="flex items-start mb-6">
-          <div class="flex items-center h-5">
-            <input id="remember" type="checkbox" value="" class="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800" required />
-          </div>
-          <label for="remember" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Remember me</label>
-        </div>
+    if (rules.isEmail) {
+        const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+        isValid = pattern.test(value) && isValid
+    }
 
-        <div className="flex justify-end">
-          <Button
-            color='white'
-            bgColor={currentColor}
-            text="submit"
-            borderRadius="10px"
-            onClick={handleSave}
-          />
-        </div>
+    if (rules.isNumeric) {
+        const pattern = /^\d+$/;
+        isValid = pattern.test(value) && isValid
+    }
 
-      </form>
-    </div>
-
-  )
+    return isValid;
 }
 
-export default AddOrder
+    inputChangedHandler = (event, inputIdentifier) => {
+    const updatedOrderForm = {
+      ...this.state.orderForm
+    };
+    const updatedFormElement = {
+      ...updatedOrderForm[inputIdentifier]
+    };
+    updatedFormElement.value = event.target.value;
+    updatedFormElement.valid = this.checkValidity(updatedFormElement.value, updatedFormElement.validation);
+    updatedFormElement.touched = true;
+    updatedOrderForm[inputIdentifier] = updatedFormElement;
+
+    let formIsValid = true;
+    for (let inputIdentifier in updatedOrderForm) {
+      formIsValid = updatedOrderForm[inputIdentifier].valid && formIsValid;
+    }
+
+    this.setState({ orderForm: updatedOrderForm, formIsValid: formIsValid });
+  }
+
+  render() {
+    const formElementsArray = [];
+    for (let key in this.state.orderForm) {
+      formElementsArray.push({
+        id: key,
+        config: this.state.orderForm[key]
+      });
+    }
+    let form = (
+      <form onSubmit={this.orderHandler}>
+        {formElementsArray.map(formElement => (
+          <Input
+            key={formElement.id}
+            elementType={formElement.config.elementType}
+            elementConfig={formElement.config.elementConfig}
+            value={formElement.config.value}
+            invalid={!formElement.config.valid}
+            shouldValidate={formElement.config.validation}
+            touched={formElement.config.touched}
+            changed={(event) => this.inputChangedHandler(event, formElement.id)}
+          />
+        ))}
+    <Button btnType="Success" disabled={!this.state.formIsValid}>ORDER</Button>
+      </form> 
+    );
+    return (
+      <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
+         <Header category="Page" title="Orders" />
+        {form}
+      </div>
+    )
+  }
+}

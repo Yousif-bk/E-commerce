@@ -18,7 +18,7 @@ function Orders() {
   const [order, setOrder] = React.useState(null)
   React.useEffect(() => {
     axios.get('/orders.json').then((response) => {
-      console.log("React Product Response",response.data);
+      console.log("React Product Response",response.data.customer);
       setOrder(response.data)
     }) .catch((error) => {
       console.log(error.message)
