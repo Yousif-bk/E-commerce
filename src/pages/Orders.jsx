@@ -3,6 +3,7 @@ import { ordersData, contextMenuItems, ordersGrid } from '../assets/dummy';
 import { Header,Button } from '../components';
 import { useNavigate } from 'react-router-dom';
 import { useStateContext } from '../contexts/ContextProvider';
+import axios from '../axios-orders';
 import { GridComponent, ColumnsDirective, ColumnDirective, Resize, Sort, ContextMenu, Filter, Page, ExcelExport, PdfExport, Edit, Inject } from '@syncfusion/ej2-react-grids';
 function Orders() {
 
@@ -12,8 +13,17 @@ function Orders() {
   const handleClick = () => {
     navigate("/addOrder");
   }
-  const editing = { allowDeleting: true, allowEditing: true };
 
+  const editing = { allowDeleting: true, allowEditing: true };
+  const [order, setOrder] = React.useState(null)
+  React.useEffect(() => {
+    axios.get('/orders.json').then((response) => {
+      console.log("React Product Response",response.data);
+      setOrder(response.data)
+    }) .catch((error) => {
+      console.log(error.message)
+    })
+  }, []);
 
   return (
     
@@ -30,7 +40,7 @@ function Orders() {
             </div>
       <GridComponent
         id="gridcomp"
-        dataSource={ordersData}
+        dataSource={order}
         allowPaging
         allowSorting
         allowExcelExport

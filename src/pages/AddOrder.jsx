@@ -4,23 +4,31 @@ import { firestore } from '../firebase'
 import { Header } from '../components';
 import { useStateContext } from '../contexts/ContextProvider';
 import { Button } from '../components';
-
+import axios from '../axios-orders';
 function AddOrder() {
   const { currentColor } = useStateContext();
   const messageRef = useRef();
   const ref = collection(firestore, "email");
-  const handleSave = async (e) => {
-    e.preventDefault();
-    let data = {
-      email: messageRef.current.value,
+  const handleSave = async(e) => {
+    const order = {
+        customer: {
+            name: 'Max Schwarzmüller',
+            address: {
+                street: 'Teststreet 1',
+                zipCode: '41351',
+                country: 'Germany'
+            },
+            email: 'test@test.com'
+        },
+        deliveryMethod: 'fastest'
     }
-    try {
-      addDoc(ref, data)
+    axios.post( '/orders.json', order )
+    .then( response => {
+    } )
+    .catch( error => {
+    } );
     }
-    catch (e) {
-      console.log(e);
-    }
-  }
+
 
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
