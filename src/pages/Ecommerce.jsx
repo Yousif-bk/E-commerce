@@ -1,17 +1,13 @@
 import React from 'react';
-import { BsCurrencyDollar } from 'react-icons/bs';
 import { GoPrimitiveDot } from 'react-icons/go';
-import { IoIosMore } from 'react-icons/io';
-import { DropDownListComponent } from '@syncfusion/ej2-react-dropdowns';
 
-import { Stacked, Pie, Button, LineChart, SparkLine } from '../components';
-import { earningData, medicalproBranding, recentTransactions, weeklyStats, dropdownData, SparklineAreaData, ecomPieChartData } from '../assets/dummy';
+import { Stacked,Button, SparkLine } from '../components';
+import { earningData,SparklineAreaData} from '../assets/dummy';
 import { useStateContext } from '../contexts/ContextProvider';
-import product9 from '../assets/product9.jpg';
 
 
 function Ecommerce() {
-  const { currentColor, currentMode } = useStateContext();
+  const { currentColor } = useStateContext();
   return (
     <div className="mt-24">
       <div className="flex flex-wrap lg:flex-nowrap justify-center ">

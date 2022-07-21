@@ -1,30 +1,20 @@
 import React from 'react';
 import { GridComponent, Inject, ColumnsDirective, ColumnDirective, Search, Page } from '@syncfusion/ej2-react-grids';
-import { useNavigate } from 'react-router-dom';
+
 import { employeesData, employeesGrid } from '../assets/dummy';
-import { Header,Button } from '../components';
-import { useStateContext } from '../contexts/ContextProvider';
+import { Header } from '../components';
+
 function Employees() {
   const toolbarOptions = ['Search'];
 
   const editing = { allowDeleting: true, allowEditing: true };
-  const { currentColor } = useStateContext();
-  const navigate = useNavigate()
-  function handleClick() {
-    navigate("/addProduct");
-  }
+  
+  
+ 
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
     <Header category="Page" title="Employees" />
-    <div className="mb-4">
-    <Button
-    onClick= {handleClick}
-              color='white'
-              bgColor={currentColor}
-              text="Add Product"
-              borderRadius="10px"
-            />
-            </div>
+   
     <GridComponent
       dataSource={employeesData}
       width="auto"

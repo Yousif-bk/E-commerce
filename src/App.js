@@ -2,12 +2,12 @@ import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import { FiSettings } from "react-icons/fi";
-import { Navbar, Footer, Header, Sidebar, ThemeSettings } from "./components";
-import { Ecommerce, Customers, Employees, Orders, AddProduct } from "./pages";
+import { Navbar, Sidebar, ThemeSettings } from "./components";
+import { Ecommerce, Customers, Employees, Orders, AddOrder } from "./pages";
 import { useStateContext } from "./contexts/ContextProvider";
 
 function App() {
-  const {setCurrentColor, setCurrentMode, currentMode, activeMenu,currentColor, themeSettings, setThemeSettings  } = useStateContext();
+  const {currentMode, activeMenu,currentColor, themeSettings, setThemeSettings  } = useStateContext();
 
   return (
     <div className={currentMode === 'Dark' ? 'dark' : ''}>
@@ -55,7 +55,7 @@ function App() {
                 <Route path="/orders" element={<Orders />}></Route>
                 <Route path="/employees" element={<Employees />}></Route>
                 <Route path="/customers" element={<Customers />}></Route>
-                <Route path="/addProduct" element={<AddProduct />}></Route>
+                <Route path="/addOrder" element={<AddOrder />}></Route>
               </Routes>
             </div>
           </div>
