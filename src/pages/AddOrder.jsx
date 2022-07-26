@@ -1,61 +1,66 @@
-import React, { useState,useEffect } from 'react'
-import { Header, Button } from '../components';
-import { useStateContext } from '../contexts/ContextProvider';
-import axios from '../axios-orders';
+import React, { useState, useEffect } from 'react'
+import { Header } from '../components';
 import { useNavigate } from 'react-router-dom';
+import { collection, addDoc } from "firebase/firestore";
+import { firestore } from '../firebase';
+
 function AddOrder() {
 
-  const { currentColor } = useStateContext();
-  const navigate = useNavigate()
+  // initialize the state
   const [isLoading, setIsLoading] = useState(false);
-  const initialValue = {fullName: "", email: "", item: "", location:""}
+  const initialValue = { fullName: "", email: "", item: "", location: "" }
   const [formValue, setFormValue] = useState(initialValue);
   const [formErrors, setFormErrors] = useState({})
-
   const [isSubmit, setIsSubmit] = useState(false)
+  const navigate = useNavigate()
 
-  const handleChange = (e) =>{
-    const {name, value} = e.target;
-    setFormValue({ ...formValue, [name]: value});
+
+  // initialize the orders state
+  const ordersCollectionRef = collection(firestore, "orders");
+  // handle change
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormValue({ ...formValue, [name]: value });
   }
 
-  const orderHandler = (e) => {
+  // handle submit
+  const orderHandler = async (e) => {
     e.preventDefault();
-    setFormErrors(validate(formValue))
     setIsSubmit(true);
     setIsLoading(true)
-    // axios.post('/orders.json', formValue)
-    //   .then(response => {
-    //     navigate("/orders");
-    //     setIsLoading(true)
-    //   })
-    //   .catch(error => {
-    //     this.setIsLoading(false)
-    //   });
-  }
-  useEffect(() => {
-    console.log(formErrors)
-    if(Object.keys(formErrors).length === 0 && isSubmit){
-      console.log(formErrors)
+    setFormErrors(validate(formValue))
+    if (Object.keys(validate(formValue)).length > 0) {
+      setIsLoading(false)
+      setIsSubmit(false)
+      return;
     }
-    
-  },[formErrors])
+    await addDoc(ordersCollectionRef, { ...formValue });
+    navigate("/orders");
+    setIsLoading(true)
+  };
+  // End handle submit
 
-  const validate = (value) =>{
+  // validate form
+  useEffect(() => {
+    if (Object.keys(formErrors).length === 0 && isSubmit) { }
+  }, [formErrors])
+
+  // validate form
+  const validate = (value) => {
     const error = {}
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
-    if(!value.fullName){
+    if (!value.fullName) {
       error.fullName = "FullName is required !"
     }
-    if(!value.email){
+    if (!value.email) {
       error.email = "Email is required !"
     } else if (!regex.test(value.email)) {
       error.email = "This is not a valid email format!";
     }
-    if(!value.item){
+    if (!value.item) {
       error.item = "Item is required !"
     }
-    if(!value.location){
+    if (!value.location) {
       error.location = "Location is required !"
     }
     return error;
@@ -73,11 +78,11 @@ function AddOrder() {
           <input type="text" value={formValue.fullName} name="fullName" onChange={handleChange} id="text" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
           <p className="text-red-600">{formErrors.fullName}</p>
         </div>
-      
+
         <div className="grid md:grid-cols-2 md:gap-6">
           <div className="mb-6">
             <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Your email</label>
-            <input type="email" value={formValue.email}  name="email" onChange={handleChange} id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@flowbite.com" required />
+            <input type="email" value={formValue.email} name="email" onChange={handleChange} id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@flowbite.com" required />
             <p className="text-red-600">{formErrors.email}</p>
           </div>
 
@@ -120,7 +125,7 @@ function AddOrder() {
             Submit
           </button>
 
-          
+
 
         </div>
 
