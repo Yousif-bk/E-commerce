@@ -2,7 +2,7 @@ import React from 'react';
 import { GridComponent, Inject, ColumnsDirective, ColumnDirective, Search, Page } from '@syncfusion/ej2-react-grids';
 
 import { employeesData, employeesGrid } from '../assets/dummy';
-import { Header } from '../components';
+import { Header } from '../shared/components';
 
 function Employees() {
   const toolbarOptions = ['Search'];

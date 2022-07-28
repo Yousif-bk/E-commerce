@@ -3,8 +3,8 @@ import { SiShopware } from 'react-icons/si'
 import { MdOutlineCancel } from 'react-icons/md'
 import { Link, NavLink } from 'react-router-dom';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
-import { links } from '../assets/dummy';
-import { useStateContext } from "../contexts/ContextProvider";
+import { links } from '../../assets/dummy';
+import { useStateContext } from "../../contexts/ContextProvider";
 
 function Sidebar() {
   const {  currentColor, activeMenu, setActiveMenu, screenSize } = useStateContext();

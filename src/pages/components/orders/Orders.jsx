@@ -1,10 +1,9 @@
-import React, {useEffect, useState} from 'react'
-import { contextMenuItems, ordersGrid } from '../assets/dummy';
-import { Header, Button } from '../components';
+import React, {useEffect} from 'react'
+import { contextMenuItems, ordersGrid } from '../../../assets/dummy';
+import { Header, Button } from '../../../shared/components';
 import { useNavigate } from 'react-router-dom';
-import { useStateContext } from '../contexts/ContextProvider';
-import axios from '../axios-orders';
-import { firestore } from '../firebase';
+import { useStateContext } from '../../../contexts/ContextProvider';
+import { firestore } from '../../../firebase';
 import { collection, getDocs } from "firebase/firestore";
 import { GridComponent, ColumnsDirective, ColumnDirective, Resize, Sort, ContextMenu, Filter, Page, ExcelExport, PdfExport, Edit, Inject } from '@syncfusion/ej2-react-grids';
 function Orders() {

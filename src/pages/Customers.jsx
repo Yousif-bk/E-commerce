@@ -1,8 +1,9 @@
 import React from 'react'
 import { GridComponent, ColumnsDirective, ColumnDirective, Page, Selection, Inject, Edit, Toolbar, Sort, Filter } from '@syncfusion/ej2-react-grids';
-import { Header } from '../components';
+import { Header } from '../shared/components';
 import { customersData, customersGrid } from '../assets/dummy';
 function Customers() {
+  
   const selectionsettings = { persistSelection: true };
   const toolbarOptions = ['Delete'];
   const editing = { allowDeleting: true, allowEditing: true };

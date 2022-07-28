@@ -5,8 +5,8 @@ import { BsChatLeft } from 'react-icons/bs';
 import { RiNotification3Line } from 'react-icons/ri';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
-import { useStateContext } from "../contexts/ContextProvider";
-import avatar from '../assets/avatar.jpg';
+import { useStateContext } from "../../contexts/ContextProvider";
+import avatar from '../../assets/avatar.jpg';
 import { Cart, Chat, Notification, UserProfile } from "../components";
 
 const NavButton = ({  title, customFunc, icon, color, dotColor }) => (

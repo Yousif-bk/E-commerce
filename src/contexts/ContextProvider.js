@@ -17,6 +17,7 @@ export const ContextProvider = ({ children }) => {
   const [currentColor, setCurrentColor] = useState('#03C9D7');
   const [currentMode, setCurrentMode] = useState('Light');
   const [themeSettings, setThemeSettings] = useState(false);
+  const [loggedIn , setLoggedIn ] = useState(null)
   const setMode = (e) => {
     setCurrentMode(e.target.value);
     localStorage.setItem('themeMode', e.target.value);
@@ -26,6 +27,16 @@ export const ContextProvider = ({ children }) => {
     setCurrentColor(color);
     localStorage.setItem('colorMode', color);
   };
+
+  // const login = () => {
+  //   setAuth(true)
+  //   localStorage.setItem("auth", true)
+  // }
+
+  // const logout = () =>{
+  //   setAuth(false)
+  // }
+  
   return (
     <StateContext.Provider
       value={{
@@ -44,6 +55,8 @@ export const ContextProvider = ({ children }) => {
         setThemeSettings,
         setCurrentColor,
         setCurrentMode,
+        loggedIn,
+        setLoggedIn
       }}
     >
       {children}

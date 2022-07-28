@@ -2,10 +2,11 @@ import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import { FiSettings } from "react-icons/fi";
-import { Navbar, Sidebar, ThemeSettings } from "./components";
-import { Ecommerce, Customers, Employees, Orders, AddOrder } from "./pages";
+import { Navbar, Sidebar, ThemeSettings } from "./shared/components";
+import { Ecommerce, Customers, Employees, Orders, AddOrder, Login } from "./pages";
 import { useStateContext } from "./contexts/ContextProvider";
-
+import { ProtectedRoute } from "./shared/components";
+import { AuthContextProvider } from "./contexts/AuthContext";
 function App() {
   const {currentMode, activeMenu,currentColor, themeSettings, setThemeSettings  } = useStateContext();
 
@@ -47,16 +48,19 @@ function App() {
 
             <div>
             {themeSettings && (<ThemeSettings />)}
+            
               <Routes>
                 {/* Dashboard */}
                 <Route path="/" element={<Ecommerce />}></Route>
                 <Route path="/ecommerce" element={<Ecommerce />}></Route>
                 {/* Pages */}
-                <Route path="/orders" element={<Orders />}></Route>
+                <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute> }></Route>
                 <Route path="/employees" element={<Employees />}></Route>
                 <Route path="/customers" element={<Customers />}></Route>
                 <Route path="/addOrder" element={<AddOrder />}></Route>
+                <Route path="/login" element={<Login />}></Route>
               </Routes>
+             
             </div>
           </div>
         </div>

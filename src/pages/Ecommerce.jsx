@@ -1,7 +1,7 @@
 import React from 'react';
 import { GoPrimitiveDot } from 'react-icons/go';
 
-import { Stacked,Button, SparkLine } from '../components';
+import { Stacked,Button, SparkLine } from '../shared/components';
 import { earningData,SparklineAreaData} from '../assets/dummy';
 import { useStateContext } from '../contexts/ContextProvider';
 

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { Header } from '../components';
+import { Header } from '../../../shared/components';
 import { useNavigate } from 'react-router-dom';
 import { collection, addDoc } from "firebase/firestore";
-import { firestore } from '../firebase';
+import { firestore } from '../../../firebase';
 
 function AddOrder() {
 
