@@ -28,14 +28,14 @@ export const ContextProvider = ({ children }) => {
     localStorage.setItem('colorMode', color);
   };
 
-  // const login = () => {
-  //   setAuth(true)
-  //   localStorage.setItem("auth", true)
-  // }
+  const login = () => {
+    setLoggedIn(true)
+    localStorage.setItem("auth", true)
+  }
 
-  // const logout = () =>{
-  //   setAuth(false)
-  // }
+  const logout = () =>{
+    setLoggedIn(false)
+  }
   
   return (
     <StateContext.Provider
@@ -56,7 +56,8 @@ export const ContextProvider = ({ children }) => {
         setCurrentColor,
         setCurrentMode,
         loggedIn,
-        setLoggedIn
+        setLoggedIn,
+        login
       }}
     >
       {children}
