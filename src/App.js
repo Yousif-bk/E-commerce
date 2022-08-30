@@ -71,8 +71,7 @@ function App() {
                   <ProtectedRoute>
                     <Orders />
                   </ProtectedRoute>
-                }
-              ></Route>
+                }></Route>
               <Route path="/employees" element={<Employees />}></Route>
               <Route path="/customers" element={<Customers />}></Route>
               <Route path="/addOrder" element={<AddOrder />}></Route>

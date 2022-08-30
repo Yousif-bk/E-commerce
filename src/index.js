@@ -5,17 +5,21 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { ContextProvider } from "./contexts/ContextProvider";
 import { UserAuthContextProvider } from "./contexts/AuthContext";
-import { BrowserRouter} from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
+import { registerLicense } from '@syncfusion/ej2-base';
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
+// Registering Syncfusion license key
+registerLicense('ORg4AjUWIQA/Gnt2VVhiQlFadVlJVXxKf0x0RWFbb116dFJMZFlBNQtUQF1hS35bdkRjWn1Yc3JRQWRf');
+
 root.render(
   <React.StrictMode>
-       <BrowserRouter>
-       
-    <UserAuthContextProvider>
-    <ContextProvider>
-      <App />
-    </ContextProvider>
-    </UserAuthContextProvider>
+    <BrowserRouter>
+      <UserAuthContextProvider>
+        <ContextProvider>
+          <App />
+        </ContextProvider>
+      </UserAuthContextProvider>
     </BrowserRouter>
   </React.StrictMode>
 );
